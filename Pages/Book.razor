@@ -1,0 +1,18 @@
+@page "/book"
+@using read2book.Services
+@using read2book.Data
+@inject IBookService bookService
+
+
+<p>@book.Name</p>
+
+@code{
+
+    private  read2book.Data.Book book = new read2book.Data.Book();
+
+    protected override void OnInitialized()
+    {
+        book =bookService.FindBook(1);
+    }
+
+}
