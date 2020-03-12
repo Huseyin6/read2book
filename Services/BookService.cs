@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using read2book.Data;
 using read2book;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace read2book.Services
 {
@@ -15,7 +17,7 @@ namespace read2book.Services
             _db = db;
         }
 
-        public Book FindBook(int id){
+        public Book GetBook(int id){
             return _db.Books.FirstOrDefault(m=>m.Id==id);
         }
 
@@ -23,5 +25,11 @@ namespace read2book.Services
         {
             _db.Dispose();
         }
+
+        public List<Book> GetAllBooks()
+        {
+            return _db.Books.ToList();
+        }
+
     }
 }

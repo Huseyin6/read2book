@@ -1,18 +1,27 @@
 @page "/book"
 @using read2book.Services
 @using read2book.Data
-@inject IBookService bookService
+@inject IBookService BookService
 
-
-<p>@book.Name</p>
+@if(BookList==null)
+{
+    <em>Loading</em>
+}
+else
+{
+    @foreach (var book in BookList)
+    {
+        <p >@book.Name</p>    
+    }
+}
 
 @code{
 
-    private  read2book.Data.Book book = new read2book.Data.Book();
+    private  List<read2book.Data.Book> BookList;
 
     protected override void OnInitialized()
     {
-        book =bookService.FindBook(1);
+        BookList= BookService.GetAllBooks();
     }
 
 }
