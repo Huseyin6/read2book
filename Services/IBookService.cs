@@ -9,6 +9,6 @@ namespace read2book.Services
     {
         Book GetBook(int id);
         List<Book> GetAllBooks();
-        
+        void DeleteBook(int id);
     }
 }

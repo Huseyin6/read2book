@@ -16,29 +16,33 @@ else
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-info">
-                <th>Name</th>
-                <th>Author</th>
-                <th>Begin to Read Date</th>
-                <th>End to Read Date</th>
-                <th>Page Count</th>
-                <th>Abstract</th>
-                <th class="text-center">Operations</th>
+                <th class="w-p-20">Name</th>
+                <th class="w-p-15">Author</th>
+                <th class="w-p-10">Begin Date</th>
+                <th class="w-p-5">End Date</th>
+                <th class="w-p-10">Page Count</th>
+                <th class="w-p-20">Abstract</th>
+                <th class="text-center w-p-20">Operations</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var book in BookList)
             {
             <tr>
-                <td>@book.Name</td>
-                <td>@book.Author</td>
-                <td>@book.BeginToReadDate.ToShortDateString()</td>
-                <td>@book.EndToReadDate.ToShortDateString()</td>
-                <td>@book.PageCount</td>
-                <td>@(book.Abstract.Length > 42 ? book.Abstract.Substring(0, 39) + " ..." : book.Abstract)</td>
-                <th class="text-center">
-                    <button class="btn btn-xs btn-info"><i class="fa fa-info-circle"></i><span style="margin-left: 5px;">Detail</span></button>
-                    <button class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i><span  style="margin-left: 5px;">Edit</span></button>
-                    <button class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i><span  style="margin-left: 5px;">Delete</span></button>
+                <td class="w-p-20">@(book.Name.Length > 38 ? book.Name.Substring(0, 35) + " ..." : book.Name)</td>
+                <td class="w-p-15">@(book.Author.Length > 38 ? book.Author.Substring(0, 35) + " ..." : book.Author)</td>
+                <td class="w-p-10">@book.BeginToReadDate.ToShortDateString()</td>
+                <td class="w-p-5">@book.EndToReadDate.ToShortDateString()</td>
+                <td class="w-p-10">@book.PageCount</td>
+                <td class="w-p-20">@(book.Abstract.Length > 38 ? book.Abstract.Substring(0, 35) + " ..." : book.Abstract)</td>
+                <th class="text-center w-p-20">
+                    <a href="@($"/Detail/{book.Id}")"  class="btn btn-xs btn-info">
+                        <i class="fa fa-info-circle"></i><span style="margin-left: 5px;">Detail</span>
+                    </a>
+                    <a href="@($"/Edit/{book.Id}")"  class="btn btn-xs btn-primary">
+                       <i class="fa fa-pencil-square-o"></i><span  style="margin-left: 5px;">Edit</span>
+                    </a>
+                    <button class="btn btn-xs btn-danger"  @onclick="@(() => Delete(book.Id))"><i class="fa fa-trash-o"></i><span  style="margin-left: 5px;">Delete</span></button>
                 </th>
             </tr>
             }
@@ -55,4 +59,10 @@ else
         BookList= BookService.GetAllBooks();
     }
 
+    [Parameter]
+    public int Id { get; set; }
+    private void Delete(int id){
+        var book= BookService.GetBook(id);
+        
+    }
 }
