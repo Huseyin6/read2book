@@ -22,7 +22,7 @@ else
                 <th>End to Read Date</th>
                 <th>Page Count</th>
                 <th>Abstract</th>
-                <th>Operations</th>
+                <th class="text-center">Operations</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@ else
                 <td>@book.EndToReadDate.ToShortDateString()</td>
                 <td>@book.PageCount</td>
                 <td>@(book.Abstract.Length > 42 ? book.Abstract.Substring(0, 39) + " ..." : book.Abstract)</td>
-                <th>
+                <th class="text-center">
                     <button class="btn btn-xs btn-info"><i class="fa fa-info-circle"></i><span style="margin-left: 5px;">Detail</span></button>
                     <button class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i><span  style="margin-left: 5px;">Edit</span></button>
                     <button class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i><span  style="margin-left: 5px;">Delete</span></button>
