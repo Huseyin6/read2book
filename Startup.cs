@@ -28,7 +28,6 @@ namespace read2book
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddScoped<IBookService,BookService>();
             services.AddEntityFrameworkNpgsql().AddDbContext<MainContext>(options =>
             {

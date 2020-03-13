@@ -7,9 +7,18 @@ namespace read2book.Data
     {
         [Key]
         public int Id { get; set; }
-       
-        [Display(Name="Adı")]
+
         public string Name { get; set; }
-      
+
+
+        public string Author { get; set; }
+
+        public DateTime BeginToReadDate { get; set; }
+
+        public DateTime EndToReadDate { get; set; }
+
+        public int PageCount { get; set; }
+
+        public string Abstract { get; set; }
     }
 }

@@ -2,17 +2,48 @@
 @using read2book.Services
 @using read2book.Data
 @inject IBookService BookService
-
+<div class="row">
+    <div class="col-md-12">
+        <h1>My Readed Book List</h1>
+    </div>
+</div>
 @if(BookList==null)
 {
     <em>Loading</em>
 }
 else
 {
-    @foreach (var book in BookList)
-    {
-        <p >@book.Name</p>    
-    }
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-info">
+                <th>Name</th>
+                <th>Author</th>
+                <th>Begin to Read Date</th>
+                <th>End to Read Date</th>
+                <th>Page Count</th>
+                <th>Abstract</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in BookList)
+            {
+            <tr>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                <td>@book.BeginToReadDate.ToShortDateString()</td>
+                <td>@book.EndToReadDate.ToShortDateString()</td>
+                <td>@book.PageCount</td>
+                <td>@(book.Abstract.Length > 42 ? book.Abstract.Substring(0, 39) + " ..." : book.Abstract)</td>
+                <th>
+                    <button class="btn btn-xs btn-info"><i class="fa fa-info-circle"></i><span style="margin-left: 5px;">Detail</span></button>
+                    <button class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i><span  style="margin-left: 5px;">Edit</span></button>
+                    <button class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i><span  style="margin-left: 5px;">Delete</span></button>
+                </th>
+            </tr>
+            }
+        </tbody>
+    </table>
 }
 
 @code{
