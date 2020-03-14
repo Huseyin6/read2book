@@ -31,9 +31,11 @@ namespace read2book.Services
             return _db.Books.ToList();
         }
 
-        public void DeleteBook(int id){
+        public void DeleteBook(int id)
+        {
             var entity= GetBook(id);
             _db.Books.Remove(entity);
+            _db.SaveChanges();
         }
     }
 }

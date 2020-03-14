@@ -62,7 +62,7 @@ else
     [Parameter]
     public int Id { get; set; }
     private void Delete(int id){
-        var book= BookService.GetBook(id);
-        
+        BookService.DeleteBook(id);
+        StateHasChanged();
     }
 }
