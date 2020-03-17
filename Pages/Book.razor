@@ -5,7 +5,17 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1>My Readed Book List</h1>
+        <h1>My Readed Books List</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        @if(bookCount>0)
+        {
+            <strong>
+                <em>My Readed Books Count: @bookCount </em>
+            </strong>
+        }
     </div>
 </div>
 @if(BookList==null)
@@ -33,14 +43,14 @@ else
                 <td class="w-p-20">@(book.Name.Length > 38 ? book.Name.Substring(0, 35) + " ..." : book.Name)</td>
                 <td class="w-p-15">@(book.Author.Length > 38 ? book.Author.Substring(0, 35) + " ..." : book.Author)</td>
                 <td class="w-p-10">@book.BeginToReadDate.ToShortDateString()</td>
-                <td class="w-p-10">@book.EndToReadDate.ToShortDateString()</td>
+                <td class="w-p-10">@(book.EndToReadDate.HasValue ? book.EndToReadDate.Value.ToShortDateString(): "Continue")</td>
                 <td class="w-p-10">@book.PageCount</td>
                 <td class="w-p-15">@(book.Abstract.Length > 38 ? book.Abstract.Substring(0, 35) + " ..." : book.Abstract)</td>
                 <th class="text-center w-p-10">
-                    <a href="@($"/Detail/{book.Id}")"  class="btn btn-xs btn-info">
+                    <a href="@($"/detail/{book.Id}")"  class="btn btn-xs btn-info">
                         <i class="fa fa-info-circle"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Detail</span>
                     </a>
-                    <a href="@($"/Edit/{book.Id}")"  class="btn btn-xs btn-primary">
+                    <a href="@($"/edit/{book.Id}")"  class="btn btn-xs btn-primary">
                        <i class="fa fa-pencil-square-o"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Edit</span>
                     </a>
                     <button class="btn btn-xs btn-danger" @onclick="@(() => Delete(book.Id))"><i class="fa fa-trash-o"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Delete</span></button>
@@ -54,17 +64,20 @@ else
 @code{
 
     private  List<read2book.Data.Book> BookList;
-
+    
+    private int bookCount;
     protected override void OnInitialized()
     {
         BookList= BookService.GetAllBooks();
+        bookCount=BookList.Count();
     }
     private async void Delete(int id){
         var result= await JsRunTime.InvokeAsync<bool>("MyLib.Confirm");
         if(result)
         {
             BookService.DeleteBook(id);
+            BookService.Save();
+            await JsRunTime.InvokeVoidAsync("MyLib.Reload");
         }
-        StateHasChanged();
     }
 }

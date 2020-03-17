@@ -10,32 +10,43 @@ namespace read2book.Services
 {
     public class BookService : IBookService
     {
-        private MainContext _db;
-
-        public BookService(MainContext db)
+        private MainContext _dbContext;
+        private DbSet<Book> _dbSet;
+        public BookService(MainContext dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
+            _dbSet=_dbContext.Set<Book>();
         }
 
         public Book GetBook(int id){
-            return _db.Books.FirstOrDefault(m=>m.Id==id);
+            return _dbSet.Find(id);
         }
 
         public void Dispose()
         {
-            _db.Dispose();
+            _dbContext.Dispose();
         }
 
         public List<Book> GetAllBooks()
         {
-            return _db.Books.ToList();
+            return _dbSet.ToList();
         }
 
         public void DeleteBook(int id)
         {
-            var entity= GetBook(id);
-            _db.Books.Remove(entity);
-            _db.SaveChanges();
+            _dbSet.Remove(GetBook(id));
+        }
+
+        public void Insert(Book book)
+        {
+            _dbSet.Add(book);   
+        }
+        public void Update(Book book)
+        {
+            _dbContext.Entry(book).State=EntityState.Modified;
+        }
+        public void Save(){
+            _dbContext.SaveChanges();
         }
     }
 }

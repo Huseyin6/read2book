@@ -15,7 +15,7 @@ namespace read2book.Data
 
         public DateTime BeginToReadDate { get; set; }
 
-        public DateTime EndToReadDate { get; set; }
+        public DateTime? EndToReadDate { get; set; }
 
         public int PageCount { get; set; }
 

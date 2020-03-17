@@ -1,0 +1,80 @@
+@page "/edit/{id:int}"
+@using read2book.Services
+@inject NavigationManager NavigationManager
+@inject IBookService BookService
+<div>
+    <EditForm Model="model" OnValidSubmit="@Save">
+        <DataAnnotationsValidator />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Name</label>
+            <div class="col-md-3">
+                <InputText class="form-control" @bind-Value="model.Name" />
+                <ValidationMessage For="(() => model.Name)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Author</label>
+            <div class="col-md-3">
+                <InputText class="form-control" @bind-Value="model.Author" />
+                <ValidationMessage For="(() => model.Author)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Begin Reading Date</label>
+            <div class="col-md-3">
+                <InputDate class="form-control" @bind-Value="model.BeginToReadDate" />
+                <ValidationMessage For="(() => model.BeginToReadDate)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">End Reading Date</label>
+            <div class="col-md-3">
+                <InputDate class="form-control" @bind-Value="model.EndToReadDate" />
+                <ValidationMessage For="(() => model.EndToReadDate)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Page Count</label>
+            <div class="col-md-3">
+                <InputNumber class="form-control" @bind-Value="model.PageCount" />
+                <ValidationMessage For="(() => model.PageCount)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Abstract</label>
+            <div class="col-md-3">
+                <InputText class="form-control" @bind-Value="model.Abstract" />
+                <ValidationMessage For="(() => model.Abstract)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-3 text-right esh-button-actions">
+                <button type="submit" class="btn btn-sm btn-success">
+                    Save
+                </button>
+                <a href="/" class="btn btn-sm btn-danger">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+
+@code{
+    [Parameter]
+    public int Id {get; set;}
+    private read2book.Data.Book model{get;set;}
+
+    protected override void OnInitialized()
+    {
+        model = BookService.GetBook(Id);
+    }
+    private void Save()
+    {
+        BookService.Update(model);
+        BookService.Save();
+        NavigationManager.NavigateTo("/book");
+    }
+}

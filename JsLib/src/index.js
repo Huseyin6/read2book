@@ -19,4 +19,6 @@ export async function Confirm(){
     });
     return willDelete;
 }
-
+export async function Reload(){
+    location.reload();
+}

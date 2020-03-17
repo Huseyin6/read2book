@@ -10,5 +10,8 @@ namespace read2book.Services
         Book GetBook(int id);
         List<Book> GetAllBooks();
         void DeleteBook(int id);
+        void Insert(Book book);
+        void Update(Book book);
+        void Save();
     }
 }
