@@ -5,65 +5,51 @@
     <h2 class="col-md-6 dl-horizontal">Book Detail</h2>
 </div>
 <div class="row">
-    <dl class="col-md-6 dl-horizontal">
-        <dt>
-            Name
-        </dt>
-
-        <dd>
-            @model.Name
-        </dd>
-
-        <dt>
-            Author
-        </dt>
-
-        <dd>
-            @model.Author
-        </dd>
-
-        <dt>
-            Begin Date
-        </dt>
-
-        <dd>
-            @model.BeginToReadDate
-        </dd>
-
-        <dt>
-            End Date
-        </dt>
-
-        <dd>
-            @model.EndToReadDate
-        </dd>
-        <dt>
-            Page Count
-        </dt>
-
-        <dd>
-            @model.PageCount
-        </dd>
-
-        <dt>
-            Abstract
-        </dt>
-
-        <dd>
-            @model.Abstract
-        </dd>
-
-    </dl>
+    <div class="col-md-6">
+        <div class="card">
+            <img class="card-img-top" src="/images/book.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h1 class="card-title">@model.Name</h1>
+                <h5>
+                   By <i>@model.Author</i>
+                </h5>
+                <div class="row">
+                    <div class="col-6 text-left">
+                        <p>Begin Reading Date: @model.BeginToReadDate</p>
+                    </div>
+                    @if(model.EndToReadDate!=null)
+                    {
+                        <div class="col-6 text-right">
+                            <p>End Read Date: @model.EndToReadDate</p>
+                        </div>
+                    }
+                </div>
+                <div class="card-text text-right">
+                   <strong>Page Count</strong>
+                   <span class="badge badge-primary badge-pill">
+                       @model.PageCount
+                    </span>
+                </div>
+                <strong class="card-text">
+                    Abstract
+                </strong>
+                <p class="card-text">@model.Abstract</p>
+            </div>
+            <div class="card-text text-right">
+                <div class="btn-group" role="group" style="margin-right: 10px;">
+                    <a href="@($"/Edit/{model.Id}")" class="btn btn-sm btn-primary" role="button" >
+                        <i class="fa fa-pencil-square-o"></i>
+                        <span style="margin-left: 5px;">Edit</span>
+                    </a>
+                    <a href="/book" class="btn btn-sm btn-warning" role="button">
+                        Back to list
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="form-actions no-color esh-link-list">
-    <a href="@($"/Edit/{model.Id}")"  class="btn btn-xs btn-primary">
-        <i class="fa fa-pencil-square-o"></i>
-        <span class="hidden-sm hidden-xs" style="margin-left: 5px;">Edit</span>
-    </a>
-    <a href="/book" class="btn btn-xs btn-warning">
-        Back to list
-    </a>
-</div>
+
 
 
 @code{

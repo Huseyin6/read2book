@@ -8,13 +8,15 @@
         <h1>My Readed Books List</h1>
     </div>
 </div>
-<div class="row">
+<div class="row" style="margin-bottom: 10px;">
     <div class="col-md-12 text-right">
         @if(bookCount>0)
         {
-            <strong>
-                <em>My Readed Books Count: @bookCount </em>
-            </strong>
+            <span class="badge badge-pill badge-info"> 
+                <strong style="padding:20px;">
+                    <em>My Readed Books Count: @bookCount </em>
+                </strong>
+            </span>
         }
     </div>
 </div>
@@ -24,56 +26,68 @@
 }
 else
 {
-    <table class="table table-bordered table-striped">
+    <table class="table table-hover table-bordered">
         <thead>
             <tr class="table-info">
-                <th class="w-p-20">Name</th>
-                <th class="w-p-15">Author</th>
-                <th class="w-p-10">Begin Date</th>
-                <th class="w-p-10">End Date</th>
-                <th class="w-p-10">Page Count</th>
-                <th class="w-p-20">Abstract</th>
-                <th class="text-center w-p-15">Operations</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Author</th>
+                <th scope="col" class="hidden-xs">Begin Date</th>
+                <th scope="col" class="hidden-xs">End Date</th>
+                <th scope="col">Page</th>
+                <th scope="col" class="hidden-xs">Abstract</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var book in BookList)
             {
-            <tr>
-                <td class="w-p-20">@(book.Name.Length > 38 ? book.Name.Substring(0, 35) + " ..." : book.Name)</td>
-                <td class="w-p-15">@(book.Author.Length > 38 ? book.Author.Substring(0, 35) + " ..." : book.Author)</td>
-                <td class="w-p-10">@book.BeginToReadDate.ToShortDateString()</td>
-                <td class="w-p-10">@(book.EndToReadDate.HasValue ? book.EndToReadDate.Value.ToShortDateString(): "Continue")</td>
-                <td class="w-p-10">@book.PageCount</td>
-                <td class="w-p-15">@(book.Abstract.Length > 38 ? book.Abstract.Substring(0, 35) + " ..." : book.Abstract)</td>
-                <th class="text-center w-p-10">
-                    <a href="@($"/detail/{book.Id}")"  class="btn btn-xs btn-info">
-                        <i class="fa fa-info-circle"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Detail</span>
-                    </a>
-                    <a href="@($"/edit/{book.Id}")"  class="btn btn-xs btn-primary">
-                       <i class="fa fa-pencil-square-o"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Edit</span>
-                    </a>
-                    <button class="btn btn-xs btn-danger" @onclick="@(() => Delete(book.Id))"><i class="fa fa-trash-o"></i><span class="hidden-sm hidden-xs" style="margin-left: 5px;">Delete</span></button>
-                </th>
-            </tr>
+                Order++;
+                <tr>
+                    <th scope="row">@Order</th>
+                    <td>@(book.Name.Length > 38 ? book.Name.Substring(0, 35) + " ..." : book.Name)</td>
+                    <td>@(book.Author.Length > 38 ? book.Author.Substring(0, 35) + " ..." : book.Author)</td>
+                    <td class="hidden-xs">@book.BeginToReadDate.ToShortDateString()</td>
+                    <td class="hidden-xs">@(book.EndToReadDate.HasValue ? book.EndToReadDate.Value.ToShortDateString(): "Continue")</td>
+                    <td>@book.PageCount</td>
+                    <td class="hidden-xs">@(book.Abstract.Length > 38 ? book.Abstract.Substring(0, 35) + " ..." : book.Abstract)</td>
+                    <td>
+                        <div class="btn-group" role="group" style="margin:0!important">
+                            <a href="@($"/detail/{book.Id}")" title="Detail" class="btn btn-info btn-sm" role="button">
+                                <i class="fa fa-info-circle"></i>
+                                <span class="hidden-sm hidden-xs" style="margin-left: 5px;">Detail</span>
+                            </a>
+                            <a href="@($"/edit/{book.Id}")" title="Edit" class="btn btn-primary btn-sm" role="button">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <span class="hidden-sm hidden-xs" style="margin-left: 5px;">Edit</span>
+                            </a>
+                            <button class="btn btn-danger btn-sm" @onclick="@(() => Delete(book.Id))">
+                                <i class="fa fa-trash-o"></i>
+                                <span class="hidden-sm hidden-xs" style="margin-left: 5px;">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                   
+                </tr>
             }
         </tbody>
     </table>
 }
 
 @code{
-
-    private  List<read2book.Data.Book> BookList;
-    
+    private List<read2book.Data.Book> BookList;
+    public int Order { get; set; }
     private int bookCount;
     protected override void OnInitialized()
     {
-        BookList= BookService.GetAllBooks();
-        bookCount=BookList.Count();
+        Order = 0;
+        BookList = BookService.GetAllBooks();
+        bookCount = BookList.Count();
     }
-    private async void Delete(int id){
-        var result= await JsRunTime.InvokeAsync<bool>("MyLib.Confirm");
-        if(result)
+    private async void Delete(int id)
+    {
+        var result = await JsRunTime.InvokeAsync<bool>("MyLib.Confirm");
+        if (result)
         {
             BookService.DeleteBook(id);
             BookService.Save();

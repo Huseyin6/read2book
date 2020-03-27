@@ -28,6 +28,7 @@ app {
 
 .main {
     flex: 1;
+    /* background-image: url("/images/book3.jpg"); */
 }
 
     .main .top-row {
@@ -152,6 +153,12 @@ app {
     font-size: 12px;
     border-radius: 5px;
 }
+.page-count-label {
+    display: inline-block;
+    background-color:purple;
+    color:yellow;
+}
+
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
