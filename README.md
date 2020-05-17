@@ -1,3 +1,3 @@
 # read2book
 
-Blazor App
+Blazor Application
